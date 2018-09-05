@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   ET
+ * @package    ET_AdvancedCompare
+ * @copyright  Copyright (c) 2012 ET Web Solutions (http://etwebsolutions.com)
+ * @contacts   support@etwebsolutions.com
+ * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
+ */
+-->
+
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem" ifconfig="advancedcompare/noreload/enablenorealod"><type>skin_js</type><name>js/et_advancedcompare/noreload.js</name></action>
+            <action method="addItem" ifconfig="advancedcompare/noreload/enablenorealod"><type>skin_css</type><name>css/et_advancedcompare/noreload.css</name></action>
+        </reference>
+
+        <reference name="right">
+            <action method="unsetChild" ifconfig="advancedcompare/general/removecompare"><name>catalog.compare.sidebar</name></action>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild" ifconfig="advancedcompare/general/removecompare"><name>catalog.compare.sidebar</name></action>
+        </reference>
+    </default>
+
+    <customer_account>
+        <reference name="left">
+            <action method="unsetChild" ifconfig="advancedcompare/general/removecompare"><name>catalog.compare.sidebar</name></action>
+        </reference>
+        <reference name="right">
+            <action method="unsetChild" ifconfig="advancedcompare/general/removecompare"><name>catalog.compare.sidebar</name></action>
+        </reference>
+    </customer_account>
+
+</layout>

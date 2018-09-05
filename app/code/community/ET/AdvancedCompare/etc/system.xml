@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   ET
+ * @package    ET_AdvancedCompare
+ * @copyright  Copyright (c) 2012 ET Web Solutions (http://etwebsolutions.com)
+ * @contacts   support@etwebsolutions.com
+ * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
+ */
+ -->
+<config>
+    <tabs>
+        <etall translate="label">
+            <label>ET Extensions</label>
+            <sort_order>400</sort_order>
+        </etall>
+    </tabs>
+
+    <sections>
+        <advancedcompare translate="label" module="advancedcompare">
+            <label>Advanced Compare</label>
+            <tab>etall</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>300</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+                <groups>
+                    <info translate="label">
+                        <label>Advanced Compare information</label>
+                        <sort_order>1</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                        <fields>
+                            <support_information>
+                                <frontend_model>advancedcompare/adminhtml_support</frontend_model>
+                                <sort_order>100</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </support_information>
+                        </fields>
+                    </info>
+                    <general translate="label">
+                        <label>Remove Compare Options</label>
+                        <frontend_type>text</frontend_type>
+                        <sort_order>10</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                        <fields>
+                            <removecompare translate="label comment">
+                                <label>Remove Compare function</label>
+                                <comment>If Yes - Removes all Add to compare links and compare blok left or right.</comment>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </removecompare>
+                            <removelink translate="label comment">
+                                <label>Remove selected links</label>
+                                <comment>If Yes - Add to compare link will be removed for products with attribute remove_compare_link=Yes</comment>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>20</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </removelink>
+                        </fields>
+                    </general>
+
+                    <limits translate="label">
+                        <label>Limit product comparison</label>
+                        <frontend_type>text</frontend_type>
+                        <sort_order>15</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                        <fields>
+                            <enable_compare_limits translate="label">
+                                <label>Limit amount of compared products</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>30</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </enable_compare_limits>
+
+                            <compare_limits translate="label comment">
+                                <label>Maximal amount of products to compare</label>
+                                <comment>Is used, if "Limit amount of compared products" is set to Yes</comment>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>40</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </compare_limits>
+                        </fields>
+                    </limits>
+
+                    <noreload translate="label">
+                        <label>Compare No Reload Options</label>
+                        <frontend_type>text</frontend_type>
+                        <sort_order>20</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                        <fields>
+                            <enablenorealod translate="label comment">
+                                <label>Enable No Reload function</label>
+                                <comment>If Yes - add to compare, remove from compare and clear compare list will work without reloading page.</comment>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </enablenorealod>
+                        </fields>
+                    </noreload>
+                    <popup translate="label">
+                        <label>Compare Popup Window Options</label>
+                        <frontend_type>text</frontend_type>
+                        <sort_order>30</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                        <fields>
+                            <replacetemplate translate="label comment">
+                                <label>Replace Popup template</label>
+                                <comment>If Yes - advanced template will be used. Added ability to hide attributes that does not differs.</comment>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </replacetemplate>
+                            <showlabelafter translate="label comment">
+                                <label>Show label after</label>
+                                <comment>Shows attribute labels after X products. Default: 3.</comment>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>20</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </showlabelafter>
+                            <sortattributes translate="label comment">
+                                <label>Sort attributes</label>
+                                <comment>If Yes - attributes in compare window will be sorted like in attribute set (in some Magento versions there is no sorting by default).</comment>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>30</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </sortattributes>
+                        </fields>
+                    </popup>
+                </groups>
+        </advancedcompare>
+    </sections>
+</config>

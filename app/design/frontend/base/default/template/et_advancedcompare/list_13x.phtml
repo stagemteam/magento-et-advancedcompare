@@ -1,0 +1,203 @@
+<?php
+/**
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   ET
+ * @package    ET_AdvancedCompare
+ * @copyright  Copyright (c) 2012 ET Web Solutions (http://etwebsolutions.com)
+ * @contacts   support@etwebsolutions.com
+ * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
+ */
+
+$show_labels_after = (int)Mage::getStoreConfig('advancedcompare/popup/showlabelafter');
+if ($show_labels_after < 1) {
+    $show_labels_after = 3;
+}
+$checkbox_label = Mage::helper('advancedcompare')->__('Show similar rows');
+
+
+$rows = array();
+foreach ($this->getAttributes() as $_attribute) {
+    $row_data = array();
+    $row_data['have_different_values'] = false;
+    $row_data['html'] = '';
+
+    $first_value = '';
+    $first_value_set = false;
+
+    $_i = 0;
+
+    foreach($this->getItems() as $_item) {
+        if($_i++%$show_labels_after==0) {
+            $row_data['html'] .= '<td class="label">'.$this->__($_attribute->getFrontendLabel()).'</td>';
+        }
+        $row_data['html'] .= '<td>';
+        switch ($_attribute->getAttributeCode()) {
+            case "price":
+                $row_data['html'] .= $this->getPriceHtml($_item, true);
+                break;
+            case "small_image":
+                $row_data['html'] .= '<img src="'.$this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125).'" width="125" height="125" alt="'.$this->htmlEscape($_item->getName()).'" />';
+                break;
+            default:
+                $value = nl2br($this->getProductAttributeValue($_item, $_attribute));
+                $row_data['html'] .= $value;
+
+                if (!$first_value_set) {
+                    $first_value_set = true;
+                    $first_value = $value;
+                }
+
+                if ($value != $first_value) {
+                    $row_data['have_different_values'] = true;
+                }
+
+                break;
+        }
+        $row_data['html'] .= '</td>';
+    }
+
+    $rows[] = $row_data;
+}
+
+?>
+
+<style type="text/css">
+html { overflow-x:auto !important; }
+.diff td { color:black; }
+.similar * { color:#838081; }
+
+.hiddenRow { display:none; }
+.visibleRow {  }
+
+.topcheckbox { position:absolute; top:55px; left:30px; }
+.bottomcheckbox { padding-top:10px; }
+</style>
+
+<div class="topcheckbox">
+    <input type="checkbox" id="chb" onclick="toggleSimilarRows(this.checked);"> <label for="chb"><?=$checkbox_label;?></label>
+</div>
+<div class="page-head button-level">
+    <h3><?php echo $this->__('Compare Products') ?></h3>
+    <a href="#" class="link-print right" onclick="print();"><?php echo $this->__('Print This Page') ?></a>
+</div>
+<?php $_total=$this->getItems()->getSize() ?>
+<?php if($_total): ?>
+<div class="compare-products">
+    <table cellspacing="0" class="data-table box-table catalog-listing" id="product_comparison">
+<?php if ($_total>2): ?>
+        <tbody class="remove-buttons">
+            <tr>
+                <?php $_i=0 ?>
+                <?php foreach($this->getItems() as $_item): ?>
+                <?php if($_i++%$show_labels_after==0): ?>
+                <td>&nbsp;</td>
+                <?php endif; ?>
+                <td><a href="#" onclick="setLocation('<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>');window.opener.location.reload();"><img src="<?php echo $this->getSkinUrl('images/chart_remove.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a></td>
+                <?php endforeach; ?>
+            </tr>
+        </tbody>
+<?php endif ?>
+        <tbody>
+            <tr class="first">
+            <?php $_i=0 ?>
+            <?php foreach($this->getItems() as $_item): ?>
+                <?php if($_i++%$show_labels_after==0): ?>
+                    <td class="label">&nbsp;</td>
+                <?php endif; ?>
+                <td>
+                    <a href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+                    <h5><a href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                    <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
+                    <?php echo $this->getPriceHtml($_item, true) ?>
+                    <?php if($_item->isSaleable()): ?>
+                    <button class="form-button" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToCartUrl($_item) ?>', true)"><span><?php echo $this->__('Add to Cart') ?></span></button><br/>
+                    <?php else: ?>
+                    <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
+                    <?php endif; ?>
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                    <a href="#" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToWishlistUrl($_item) ?>', true)" class="link-cart"><small><?php echo $this->__('Add to Wishlist') ?></small></a>
+                    <?php endif; ?>
+                </td>
+            <?php endforeach; ?>
+            </tr>
+        </tbody>
+        <tbody id="full" class="hiddenRow">
+        <? foreach ($rows as $row) : ?>
+            <? if ($row['have_different_values']) :?>
+            <tr class="diff">
+            <? else: ?>
+            <tr class="similar">
+            <? endif;?>
+            <?=$row['html'];?>
+            </tr>
+        <? endforeach; ?>
+        </tbody>
+        <tbody id="short" class="visibleRow">
+        <? foreach ($rows as $row) : ?>
+            <? if ($row['have_different_values']) :?>
+            <tr>
+                <?=$row['html'];?>
+            </tr>
+            <? endif;?>
+        <? endforeach; ?>
+        </tbody>
+        <tbody class="attribute-cart">
+                <tr>
+                <?php $_i=0 ?>
+                <?php foreach($this->getItems() as $_item): ?>
+                <?php if($_i++%$show_labels_after==0): ?>
+                 <td class="label">&nbsp;</td>
+                <?php endif; ?>
+                <td>
+                    <?php echo $this->getPriceHtml($_item, true) ?>
+                    <?php if($_item->isSaleable()): ?>
+                    <button class="form-button" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToCartUrl($_item) ?>', true)"><span><?php echo $this->__('Add to Cart') ?></span></button><br/>
+                    <?php else: ?>
+                    <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
+                    <?php endif; ?>
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                    <a href="#" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToWishlistUrl($_item) ?>', true)" class="link-cart"><small><?php echo $this->__('Add to Wishlist') ?></small></a>
+                    <?php endif; ?>
+                </td>
+                <?php endforeach; ?>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottomcheckbox">
+        <input type="checkbox" id="chb2" onclick="toggleSimilarRows(this.checked);"> <label for="chb2"><?=$checkbox_label;?></label>
+    </div>
+
+    <div class="button-set">
+        <button class="form-button" onclick="window.close();"><span><?php echo $this->__('Close Window') ?></span></button>
+    </div>
+</div>
+<script type="text/javascript">
+decorateTable('product_comparison');
+
+function toggleSimilarRows(show) {
+    if (show == true) {
+        document.getElementById('full').className = 'visibleRow';
+        document.getElementById('short').className = 'hiddenRow';
+        document.getElementById('chb').checked = true;
+        document.getElementById('chb2').checked = true;
+    } else {
+        document.getElementById('full').className = 'hiddenRow';
+        document.getElementById('short').className = 'visibleRow';
+        document.getElementById('chb').checked = false;
+        document.getElementById('chb2').checked = false;
+    }
+}
+</script>
+<?php else: ?>
+<script type="text/javascript">window.close();</script>
+<?php endif; ?>

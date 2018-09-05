@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   ET
+ * @package    ET_AdvancedCompare
+ * @copyright  Copyright (c) 2012 ET Web Solutions (http://etwebsolutions.com)
+ * @contacts   support@etwebsolutions.com
+ * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
+ */
+ -->
+<config>
+    <modules>
+        <ET_AdvancedCompare>
+            <name>ET Advanced Compare</name>
+            <version>1.0.7</version>
+            <descr>
+                <ru_RU><![CDATA[Реализует работу сравнения без перезагрузки (технология Ajax), улучшает наглядность результатов, а также позволяет отключить функцию сравнения вообще.]]>
+                </ru_RU>
+                <en_US><![CDATA[Extension allows to add products to compare without page reloading (AJAX), improves visualization of results and allows to switch compare off on your website.]]>
+                </en_US>
+            </descr>
+            <permanentlink>
+                <ru_RU>http://shop.etwebsolutions.com/rus/et-advancedcompare.html</ru_RU>
+                <en_US>http://shop.etwebsolutions.com/eng/et-advancedcompare.html</en_US>
+            </permanentlink>
+            <license>
+                <ru_RU><![CDATA[ETWS Свободная лицензия (EFL1)]]></ru_RU>
+                <en_US><![CDATA[ETWS Free License (EFL1)]]></en_US>
+            </license>
+            <licenselink>
+                <ru_RU>http://shop.etwebsolutions.com/rus/etws-license-free-v1</ru_RU>
+                <en_US>http://shop.etwebsolutions.com/eng/etws-license-free-v1</en_US>
+            </licenselink>
+            <redminelink>http://support.etwebsolutions.com/projects/et-advancedcompare/roadmap</redminelink>
+            <ourserviceslink>
+                <ru_RU>http://shop.etwebsolutions.com/rus/our-services</ru_RU>
+                <en_US>http://shop.etwebsolutions.com/eng/our-services</en_US>
+            </ourserviceslink>
+        </ET_AdvancedCompare>
+    </modules>
+
+    <global>
+        <rewrite>
+            <advancedcompare_index>
+            <from><![CDATA[#^/catalog/product_compare/#]]></from>
+            <to>/advancedcompare/index/</to>
+            </advancedcompare_index>
+        </rewrite>
+
+        <helpers>
+            <advancedcompare>
+                <class>ET_AdvancedCompare_Helper</class>
+            </advancedcompare>
+            <catalog>
+                <rewrite>
+                    <product_compare>ET_AdvancedCompare_Helper_Data</product_compare>
+                </rewrite>
+            </catalog>
+        </helpers>
+
+        <blocks>
+            <advancedcompare>
+                <class>ET_AdvancedCompare_Block</class>
+            </advancedcompare>
+        </blocks>
+
+
+        <models>
+            <advancedcompare>
+                <class>ET_AdvancedCompare_Model</class>
+            </advancedcompare>
+            <catalog_resource_eav_mysql4>
+                <rewrite>
+                    <product_compare_item_collection>ET_AdvancedCompare_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection</product_compare_item_collection>
+                </rewrite>
+            </catalog_resource_eav_mysql4>
+        </models>
+
+        <resources>
+            <advancedcompare_setup>
+                <setup>
+                    <module>ET_AdvancedCompare</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </advancedcompare_setup>
+            <advancedcompare_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </advancedcompare_write>
+            <advancedcompare_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </advancedcompare_read>
+        </resources>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <replace_compare_template>
+                        <class>advancedcompare/observer</class>
+                        <method>replaceCompareBlockTemplate</method>
+                    </replace_compare_template>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+        </events>
+    </global>
+
+    <default>
+        <advancedcompare>
+            <general>
+                <removecompare>0</removecompare>
+                <removelink>1</removelink>
+            </general>
+            <noreload>
+                <enablenorealod>1</enablenorealod>
+            </noreload>
+            <limits>
+                <enable_compare_limits>0</enable_compare_limits>
+                <compare_limits>10</compare_limits>
+            </limits>
+            <popup>
+                <replacetemplate>0</replacetemplate>
+                <showlabelafter>3</showlabelafter>
+                <sortattributes>0</sortattributes>
+            </popup>
+        </advancedcompare>
+    </default>
+
+    <frontend>
+        <layout>
+            <updates>
+                <advancedcompare>
+                    <file>et_advancedcompare.xml</file>
+                </advancedcompare>
+            </updates>
+        </layout>
+        <routers>
+            <advancedcompare>
+                <use>standard</use>
+                <args>
+                    <module>ET_AdvancedCompare</module>
+                    <frontName>advancedcompare</frontName>
+                </args>
+            </advancedcompare>
+        </routers>
+        <translate>
+            <modules>
+                <ET_AdvancedCompare>
+                    <files>
+                        <default>ET_AdvancedCompare.csv</default>
+                    </files>
+                </ET_AdvancedCompare>
+            </modules>
+        </translate>
+    </frontend>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <advancedcompare translate="title" module="advancedcompare">
+                                            <title>ET Advanced Compare Section</title>
+                                            <sort_order>400</sort_order>
+                                        </advancedcompare>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <ET_AdvancedCompare>
+                    <files>
+                        <default>ET_AdvancedCompare.csv</default>
+                    </files>
+                </ET_AdvancedCompare>
+            </modules>
+        </translate>
+    </adminhtml>
+
+</config>
