@@ -1,0 +1,28 @@
+{
+  "name": "stagem/magento-et-advancedcompare",
+  "type": "magento-module",
+  "license": "MIT Licence",
+  "description": "Magento Advanced Compare",
+  "authors": [
+    {
+      "name": "Vlad Kozak",
+      "email": "vk@stagem.com.ua"
+    }
+  ],
+  "extra": {
+    "map": [
+      ["app/code/community/ET/AdvancedCompare/", "app/code/community/ET/AdvancedCompare/"],
+      
+      ["app/etc/modules/ET_AdvancedCompare.xml", "app/etc/modules/ET_AdvancedCompare.xml"],
+
+      ["app/locale/en_US/ET_AdvancedCompare.csv", "app/locale/en_US/ET_AdvancedCompare.csv"],
+      ["app/locale/ru_RU/ET_AdvancedCompare.csv", "app/locale/ru_RU/ET_AdvancedCompare.csv"],
+
+      ["app/design/frontend/base/default/layout/et_advancedcompare.xml", "app/design/frontend/base/default/layout/et_advancedcompare.xml"],
+      ["app/design/frontend/base/default/template/et_advancedcompare/", "app/design/frontend/base/default/template/et_advancedcompare/"],
+
+      ["skin/frontend/base/default/css/et_advancedcompare/", "skin/frontend/base/default/css/et_advancedcompare/"],
+      ["skin/frontend/base/default/js/et_advancedcompare/", "skin/frontend/base/default/js/et_advancedcompare/"]
+    ]
+  }
+}
